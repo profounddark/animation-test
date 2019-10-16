@@ -63,7 +63,7 @@ function mainPaint(timestamp)
     // update deltaT
     let deltaT = (timestamp - oldTime)/1000;
     oldTime = timestamp;
-
+    
     ballX = ballX + xSpeed*deltaT;
     ballY = ballY + ySpeed*deltaT;
 
