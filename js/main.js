@@ -33,7 +33,7 @@ class Tile
                 }
                 this._previous = time;
                 ballX++;
-                ballY++;z
+                ballY++;
             }
         }
         else
