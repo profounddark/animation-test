@@ -4,6 +4,10 @@ let ballSprite;
 
 let ballX = 0;
 let ballY = 0;
+const xSpeed = 15;
+const ySpeed = 15;
+
+let oldTime = 0;
 
 class Tile
 {
@@ -32,8 +36,6 @@ class Tile
                     this._currentFrame = 0;
                 }
                 this._previous = time;
-                ballX++;
-                ballY++;
             }
         }
         else
@@ -58,6 +60,14 @@ class Tile
 
 function mainPaint(timestamp)
 {
+    // update deltaT
+    let deltaT = (timestamp - oldTime)/1000;
+    oldTime = timestamp;
+
+    ballX = ballX + xSpeed*deltaT;
+    ballY = ballY + ySpeed*deltaT;
+
+
     context.clearRect(0, 0, canvas.width, canvas.height);
     ballSprite.update(timestamp);
     ballSprite.drawTile(context, ballX, ballY);
@@ -67,8 +77,8 @@ function mainPaint(timestamp)
 window.addEventListener("load", function(event)
 {
     canvas = document.getElementById("testground");
-    canvas.height = 100;
-    canvas.width = 100;
+    canvas.height = 500;
+    canvas.width = 500;
     context = canvas.getContext("2d");
 
     ballSprite = new Tile(document.getElementById("ballsprite"), 24, 24, 4, 100);
