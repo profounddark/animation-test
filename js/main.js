@@ -2,12 +2,14 @@ let canvas;
 let context;
 let ballSprite;
 
-let ballX = 0;
-let ballY = 0;
-const xSpeed = 15;
-const ySpeed = 15;
+let ballX = 17;
+let ballY = 139;
+let xSpeed = 100;
+let ySpeed = 100;
 
 let oldTime = 0;
+
+let active = true;
 
 class Tile
 {
@@ -58,30 +60,57 @@ class Tile
     } 
 }
 
+function moveBall(deltaT)
+{
+    ballX = ballX + xSpeed*deltaT;
+    ballY = ballY + ySpeed*deltaT;
+
+    if ((ballX >= canvas.width - ballSprite._width) || (ballX <= 0))
+    {
+        xSpeed = -xSpeed;
+    }
+    
+    if ((ballY >= canvas.height - ballSprite._height) || (ballY <= 0))
+    {
+        ySpeed = -ySpeed;
+    }
+
+}
+
 function mainPaint(timestamp)
 {
     // update deltaT
     let deltaT = (timestamp - oldTime)/1000;
     oldTime = timestamp;
     
-    ballX = ballX + xSpeed*deltaT;
-    ballY = ballY + ySpeed*deltaT;
-
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-    ballSprite.update(timestamp);
-    ballSprite.drawTile(context, ballX, ballY);
+    if (active)
+    {
+        moveBall(deltaT);    
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        ballSprite.update(timestamp);
+        ballSprite.drawTile(context, ballX, ballY);
+    }
+    
     window.requestAnimationFrame(mainPaint);
+
 }
 
 window.addEventListener("load", function(event)
 {
     canvas = document.getElementById("testground");
-    canvas.height = 500;
+    canvas.height = 300;
     canvas.width = 500;
     context = canvas.getContext("2d");
 
     ballSprite = new Tile(document.getElementById("ballsprite"), 24, 24, 4, 100);
 
     window.requestAnimationFrame(mainPaint);
+});
+
+document.addEventListener("keydown", function(event)
+{
+    if (event.keyCode == 32)
+    {
+        active = !active;
+    }
 });

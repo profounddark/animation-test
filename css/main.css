@@ -2,6 +2,7 @@ canvas
 {
     width: 50%;
     height: auto;
+    border: solid;
 }
 
 .spritesheet
